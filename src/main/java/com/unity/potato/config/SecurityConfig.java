@@ -72,8 +72,6 @@ public class SecurityConfig {
 
 
         http
-                .cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin((form) -> form
                         .loginPage("/community/login")
                         .loginProcessingUrl("/api/login")
