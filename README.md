@@ -85,7 +85,7 @@ ApplicationEventPublisher와 스프링 @Async 기능을 사용해서 비동기 �
 ①  프로필 탭
 프로필 이미지, 소개글 설정
 
-![image](https://github.com/kongemom1215/-/assets/72897088/486a1561-d718-4cac-a927-ec2ebe6a83d9)
+![image](https://github.com/kongemom1215/Potato-Community-Project/assets/72897088/fc762cea-b02c-475f-8e17-014c8721b4a4)
 ②  계정관리 탭
 비밀번호, 닉네임 변경
 
