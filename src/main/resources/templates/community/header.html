@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="header">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Gamza Community" />
+    <meta name="author" content="Gamza Girl" />
+    <title>감자조아</title>
+    <link rel="icon" type="image/x-icon" href="/assets/potato_icon.png" />
+    <!-- CSS include-->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/css/main_style.css" rel="stylesheet" />
+    <link href="/css/chart.css" rel="stylesheet"/>
+    <!--script include-->
+    <script src="/js/common/jquery-3.7.1.min.js"></script>
+    <script src="/js/common/jquery.validate.min.js"></script>
+    <script src="/js/common/bootstrap.bundle.min.js"></script>
+    <script src="/js/common/top_navigator.js"></script>
+    <script src="/js/common/sidebar.js"></script>
+    <script src="/js/common/cookieUtils.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="/js/common/moment.js"></script>
+    <script src="/js/menu.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <th:block th:if="${@envUtils.isEqualProfile('local')}">
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3968e05d9eafab82db72d2a531770d9f&libraries=services"></script>
+    </th:block>
+    <th:block th:if="${@envUtils.isEqualProfile('prd')}">
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ceb3586edd786e4d4ff3425e390624c&libraries=services"></script>
+    </th:block>
+</head>
+
+<head th:fragment="header-not-login">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Gamza Community" />
+    <meta name="author" content="Gamza Girl" />
+    <title>감자조아</title>
+    <link rel="icon" type="image/x-icon" href="/assets/potato_icon.png" />
+
+    <!-- CSS include-->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/css/main_style.css" rel="stylesheet" />
+    <link href="/css/error.css" rel="stylesheet"/>
+    <link href="/css/chart.css" rel="stylesheet"/>
+
+    <!--script include-->
+    <script src="/js/common/jquery-3.7.1.min.js"></script>
+    <script src="/js/common/bootstrap.bundle.min.js"></script>
+    <script src="/js/common/top_navigator.js"></script>
+    <script src="/js/common/sidebar.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <th:block th:if="${@envUtils.isEqualProfile('local')}">
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3968e05d9eafab82db72d2a531770d9f&libraries=services"></script>
+    </th:block>
+    <th:block th:if="${@envUtils.isEqualProfile('prd')}">
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ceb3586edd786e4d4ff3425e390624c&libraries=services"></script>
+    </th:block>
+</head>
+</html>

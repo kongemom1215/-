@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{login/head.html :: head}"></head>
+<link href="/css/error.css" rel="stylesheet" />
+<body>
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<!-- Top navigation-->
+<th:block th:replace="~{intro/navbar.html :: navbar}"></th:block>
+
+<div id="page-content" class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-8 col-md-10 mt-5">
+            <div class="mt-5">
+                <!-- 403 Error Text -->
+                <div class="text-center">
+                    <div class="error mx-auto" data-text="403">403</div>
+                    <p class="lead text-gray-800 mb-5">Forbidden</p>
+                    <p class="text-gray-500 mb-0">접근이 거부되었습니다.</p>
+                    <a href="/intro">← 되돌아가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

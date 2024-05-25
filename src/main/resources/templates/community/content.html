@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="content" class="container-fluid px-4">
+    <div class="container my-3">
+        <div class="row mt-3 mb-3">
+            <div class="col-lg-8 col-md-6 col-sm-8 col-xs-12 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="font-weight-bold text-dark text-uppercase mb-1">
+                            맛집 네비게이션
+                        </div>
+                        <hr>
+                        <div id="map" style="position: relative; height:75vh;"></div>
+                        <a title="감자 아이콘" href="https://www.flaticon.com/kr/free-icons/" class="fs-8 text-muted pb-0">감자 아이콘 제작자: Freepik - Flaticon</a>
+                    </div>
+                    <div onclick="goReviewForum('all');" class="guide-board card-footer d-flex align-items-center justify-content-between">
+                        <div class="small text-dark">여러분의 맛집도 소개해주세요!</div>
+                        <div class="small text-dark">
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="card" style="padding : 0rem;">
+                        <div class="card-header">
+                            감자조아 인기글
+                        </div>
+                        <th:block th:if="${hotPosts == null}">
+                            <div class="card-body">
+                                아직 등록된 글이 없습니다. <br>여러분의 글로 꾸며주세요! <button class="btn btn-sm btn-outline-potato ms-2" onclick="goForumWrite();">🥔글쓰러가기🥔</button>
+                            </div>
+                        </th:block>
+                        <th:block th:if="${hotPosts != null}">
+                            <ul class="list-group list-group-flush">
+                                <th:block th:each="post : ${hotPosts}">
+                                    <a th:href="${post.postLink}" class="list-group-item list-group-item-action" th:text="${post.postTitle}"></a>
+                                </th:block>
+                            </ul>
+                            <div onclick="goHotForum();" class="guide-board card-footer d-flex align-items-center justify-content-between">
+                                <div class="small text-dark">더보기</div>
+                                <div class="small text-dark">
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <a href="#" class="guide-board card border-left-warning shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#shortsModal">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        요즘 뜨는 감자 요리는?</div>
+                                    <div class="text-black-50 font-weight-bold small">알고싶으면 click!</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="bi bi-hand-index-thumb fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="row mt-3">
+                    <a href="/community/recipe" class="guide-board card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-success text-uppercase mb-1">
+                                        맛도리 감자 레시피 </div>
+                                    <div class="text-black-50 font-weight-bold small">알고싶으면 Click!</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="bi bi-hand-index-thumb fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="row mt-3">
+                    <a href="#" class="guide-board card border-right-primary shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#aiModal">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-primary text-uppercase mb-1">
+                                        AI가 알려주는 레시피 </div>
+                                    <div class="text-black-50 font-weight-bold small">click! 해보세요</div>
+                                </div>
+                                <div class="col-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-robot" viewBox="0 0 16 16">
+                                        <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
+                                        <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="row mt-3">
+                    <div class="card shadow">
+                        <div id="chartDiv" class="card-body text-center">
+                            <div class="spinner-grow text-deep-potato" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <th:block th:if="${msgVo == null}">
+                        <div class="guide-board card bg-middle-potato bg-opacity-75 text-white shadow" data-bs-toggle="modal" data-bs-target="#inputMsgModal">
+                            <div class="card-body">
+                                감자는 매력적이야.
+                                <div class="text-white-50 small">튀기면 튀기는대로, 삶으면 삶은대로, 너무맛있으니까.</div>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${msgVo != null}">
+                        <div class="guide-board card bg-opacity-75 text-white shadow" data-bs-toggle="modal" data-bs-target="#inputMsgModal" th:style="|background-color:${msgVo.rgb}; border-color:${msgVo.rgb};|">
+                            <div class="card-body">
+                                <span th:text="${msgVo.title}"></span>
+                                <div class="text-white-50 small" th:text="${msgVo.msg}"></div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+        <th:block th:replace="~{community/modal.html :: ai-modal}"></th:block>
+        <th:block th:replace="~{community/modal.html :: shorts-modal}"></th:block>
+        <th:block th:replace="~{community/modal.html :: msg-modal}"></th:block>
+    </div>
+</div>
+
+
+<div th:fragment="content-not-login" class="container-fluid px-4">
+    <div class="container my-3">
+        <div class="row mt-3 mb-3">
+            <div class="col-lg-8 col-md-6 col-sm-8 col-xs-12 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="font-weight-bold text-dark text-uppercase mb-1">
+                            맛집 네비게이션
+                        </div>
+                        <hr>
+                        <div id="map" style="position: relative; height:75vh;"></div>
+                        <a title="감자 아이콘" href="https://www.flaticon.com/kr/free-icons/" class="fs-8 text-muted pb-0">감자 아이콘 제작자: Freepik - Flaticon</a>
+                    </div>
+                    <div class="guide-board card-footer d-flex align-items-center justify-content-between" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <div class="small text-dark">여러분의 맛집도 소개해주세요!</div>
+                        <div class="small text-dark">
+                            <i class="bi bi-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="card" style="padding : 0rem;">
+                        <div class="card-header">
+                            감자조아 인기글
+                        </div>
+                        <th:block th:if="${hotPosts == null}">
+                            <div class="card-body">
+                                아직 등록된 글이 없습니다. <br>여러분의 글로 꾸며주세요! <button class="btn btn-sm btn-outline-potato ms-2" data-bs-toggle="modal" data-bs-target="#loginModal">🥔글쓰러가기🥔</button>
+                            </div>
+                        </th:block>
+                        <th:block th:if="${hotPosts != null}">
+                            <ul class="list-group list-group-flush">
+                                <th:block th:each="post : ${hotPosts}">
+                                    <a href="#" class="list-group-item list-group-item-action" th:text="${post.postTitle}" data-bs-toggle="modal" data-bs-target="#loginModal"></a>
+                                </th:block>
+                            </ul>
+                            <div class="guide-board card-footer d-flex align-items-center justify-content-between" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <div class="small text-dark">더보기</div>
+                                <div class="small text-dark">
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="guide-board card border-left-warning shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        요즘 뜨는 감자 요리는?</div>
+                                    <div class="text-black-50 font-weight-bold small">알고싶으면 click!</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="bi bi-hand-index-thumb fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="guide-board card border-left-success shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-success text-uppercase mb-1">
+                                        맛도리 감자 레시피 </div>
+                                    <div class="text-black-50 font-weight-bold small">알고싶으면 Click!</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="bi bi-hand-index-thumb fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="guide-board card border-right-primary shadow h-100 py-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="font-weight-bold text-primary text-uppercase mb-1">
+                                        AI가 알려주는 레시피 </div>
+                                    <div class="text-black-50 font-weight-bold small">click! 해보세요</div>
+                                </div>
+                                <div class="col-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-robot" viewBox="0 0 16 16">
+                                        <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"/>
+                                        <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="card shadow">
+                        <div id="chartDiv" class="card-body text-center">
+                            <div class="spinner-grow text-deep-potato" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <th:block th:if="${msgVo == null}">
+                        <div class="guide-board card bg-middle-potato bg-opacity-75 text-white shadow" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <div class="card-body">
+                                감자는 매력적이야.
+                                <div class="text-white-50 small">튀기면 튀기는대로, 삶으면 삶은대로, 너무맛있으니까.</div>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${msgVo != null}">
+                        <div class="guide-board card bg-opacity-75 text-white shadow" th:style="|background-color:${msgVo.rgb}; border-color:${msgVo.rgb};|" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <div class="card-body">
+                                <span th:text="${msgVo.title}"></span>
+                                <div class="text-white-50 small" th:text="${msgVo.msg}"></div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{community/modal.html :: login-modal}"></div>
+    </div>
+</div>
+</html>

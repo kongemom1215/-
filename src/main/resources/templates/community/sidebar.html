@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="sidebar">
+    <!-- 로그인 -->
+    <div sec:authorize="isAuthenticated()" class="border-end text-dark-potato bg-potato" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center border-bottom"><a href="/intro" class="text-dark-potato">감자조아</a></div>
+        <div class="list-group list-group-flush">
+            <a class="p-3" href="#!">
+                <form class="d-flex" role="search" onsubmit="return validateSearch();" th:action="@{/community/search}" method="get">
+                    <input class="form-control me-2" type="search" id="searchInput" name="keyword" aria-label="Search">
+                    <button class="btn btn-potato" type="submit"><i class="bi bi-search"></i></button>
+                </form>
+            </a>
+            <a class="list-group-item-action p-3" href="/community/main">
+                <button class="btn">메인</button>
+            </a>
+            <a class="list-group-item-action p-3" href="#community" data-bs-toggle="collapse"  role="button" aria-expanded="false" aria-controls="community">
+                <button class="btn">커뮤니티</button>
+                <div class="collapse mt-3" id="community">
+                    <div class="card card-body">
+                        <button class="btn btn-light mb-1" onclick="goForum();" type="button" data-bs-toggle="collapse" data-bs-target="#community">
+                            자유게시판
+                        </button>
+                        <button class="btn btn-light mb-1" onclick="goShareForum();" type="button" data-bs-toggle="collapse" data-bs-target="#community">
+                            감자 공유소
+                        </button>
+                    </div>
+                </div>
+            </a>
+            <a class="list-group-item-action p-3" href="#good-restaurant" data-bs-toggle="collapse"  role="button" aria-expanded="false" aria-controls="good-restaurant">
+                <button class="btn">지역별 감자 맛집</button>
+                <div class="collapse mt-3" id="good-restaurant">
+                    <div class="card card-body">
+                        <h6 class="card-title mb-2 text-body-secondary">지역</h6>
+                        <button class="btn btn-light mb-1" onclick="goReviewForum('all');" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            전체
+                        </button>
+                        <h6 class="card-title mb-2 text-body-secondary">지역별로 오픈 예정입니다.</h6>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            서울
+                        </button>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            춘천
+                        </button>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            강릉
+                        </button>
+                    </div>
+                </div>
+            </a>
+            <a class="list-group-item-action p-3" href="/community/recipe"><button class="btn">감자 레시피</button></a>
+            <a class="list-group-item-action p-3" href="/worldcup"><button class="btn">감자 월드컵</button></a>
+            <a class="list-group-item-action p-3" href="/community/hot"><button class="btn">인기글 모음</button></a>
+            <div class="card mt-3 mb-3 ms-3 me-3 text-center" style="font-size: .875rem; background-color: rgba(0, 0, 0, .1); color: rgba(255, 255, 255, .8); border-radius: 0.35rem;">
+                <div class="card-body">
+                    <img class="satellites mb-2" src="/assets/potato_icon.png" alt="..." style="height:3rem;">
+                    <p class="card-text"><b>감자조아</b>는 2024년 5월에 오픈했어요! 앞으로 더 많은 기능 추가할 예정입니다.</p>
+                    <a href="https://www.instagram.com/potato_zoayo" target="_blank" class="btn btn-light">More Information</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 미로그인 -->
+    <div sec:authorize="isAnonymous()" class="border-end text-dark-potato bg-potato" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center border-bottom"><a href="/intro" class="text-dark-potato">감자조아</a></div>
+        <div class="list-group list-group-flush">
+            <a class="p-3" href="#!">
+                <form class="d-flex" role="search" onsubmit="return false;">
+                    <input class="form-control me-2" type="search" aria-label="Search">
+                    <button class="btn btn-potato" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-search"></i></button>
+                </form>
+            </a>
+            <a class="list-group-item-action p-3" href="/community/main">
+                <button class="btn">메인</button>
+            </a>
+            <a class="list-group-item-action p-3" href="#community" data-bs-toggle="collapse"  role="button" aria-expanded="false" aria-controls="community">
+                <button class="btn">커뮤니티</button>
+                <div class="collapse mt-3" id="community">
+                    <div class="card card-body">
+                        <button class="btn btn-light mb-1 open-login-modal" type="button" data-bs-toggle="collapse" data-bs-target="#community">
+                            자유게시판
+                        </button>
+                        <button class="btn btn-light mb-1 open-login-modal" type="button" data-bs-toggle="collapse" data-bs-target="#community">
+                            감자 공유소
+                        </button>
+                    </div>
+                </div>
+            </a>
+            <a class="list-group-item-action p-3" href="#good-restaurant" data-bs-toggle="collapse"  role="button" aria-expanded="false" aria-controls="good-restaurant">
+                <button class="btn">지역별 감자 맛집</button>
+                <div class="collapse mt-3" id="good-restaurant">
+                    <div class="card card-body">
+                        <h6 class="card-title mb-2 text-body-secondary">지역</h6>
+                        <button class="btn btn-light mb-1 open-login-modal" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            전체
+                        </button>
+                        <h6 class="card-title mb-2 text-body-secondary">지역별로 오픈 예정입니다!</h6>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            서울
+                        </button>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            춘천
+                        </button>
+                        <button class="btn btn-light disabled mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#good-restaurant">
+                            강릉
+                        </button>
+                    </div>
+                </div>
+            </a>
+            <a class="list-group-item-action p-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><button class="btn">감자 레시피</button></a>
+            <a class="list-group-item-action p-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><button class="btn">감자 월드컵</button></a>
+            <a class="list-group-item-action p-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><button class="btn">인기글 모음</button></a>
+            <div class="card mt-3 mb-3 ms-3 me-3 text-center" style="font-size: .875rem; background-color: rgba(0, 0, 0, .1); color: rgba(255, 255, 255, .8); border-radius: 0.35rem;">
+                <div class="card-body">
+                    <img class="satellites mb-2" src="/assets/potato_icon.png" alt="..." style="height:3rem;">
+                    <p class="card-text"><b>감자조아</b>는 2024년 5월에 오픈했어요! 앞으로 더 많은 기능 추가할 예정입니다.</p>
+                    <a href="https://www.instagram.com/potato_zoayo" target="_blank" class="btn btn-light">More Information</a>
+                </div>
+            </div>
+            <a href="/community/login"  class="m-2 btn btn-potato">
+                <span class="text text-white">로그인</span>
+            </a>
+        </div>
+    </div>
+</th:block>
+
+
+</html>

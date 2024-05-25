@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<!-- Login User -->
+<head th:replace="~{board/header.html :: header}"></head>
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<th:block th:if="${board != null}">
+    <script th:inline="javascript">
+        var post_content = [[${board.content}]];
+    </script>
+</th:block>
+<script src="/js/freeBoardEdit.js"></script>
+
+<body id="page-top">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+        <!-- title -->
+        <header id="content-bg" class="page-header page-header-dark bg-potato pb-10">
+            <div class="container-board">
+                <div class="row my-3 mt-3">
+                    <div class="card bg-transparent border-0">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-md-8 d-flex align-items-center">
+                                    <h1 class="h3 mt-3 mb-2 text-potato fw-bold">글쓰기</h1>
+                                </div>
+                                <div class="col-md-4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 글쓰기 FORM -->
+        <div id="board" class="container-board">
+            <th:block th:if="${error}">
+                <div class="row mt-3 my-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="error mx-auto" data-text="404" style="width:14.5rem;">404</div>
+                                <p class="lead text-gray-800 mb-4">페이지를 찾을 수 없습니다.</p>
+                                <p class="text-gray-500 mb-0">페이지의 주소가 잘못됐거나 삭제되었습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <th:block th:if="${error == null && board != null}">
+                <!--글쓰기-->
+                <input type="hidden" id="postId" th:value="${board.postId}">
+                <div class="row mt-2 my-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">자유게시판</label>
+                                    <input type="text" class="form-control" id="title" placeholder="제목을 입력하세요" th:value="${board.title}" maxlength="50">
+                                </div>
+                                <div id="alertMaxOver"></div>
+                                <div class="mb-3">
+                                    <div id="editor"></div>
+                                </div>
+                                <button type="button" class="btn btn-potato" onclick="updatePost();">수정</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+        <div class="container-board">
+            <button type="button" class="btn btn-beige" onclick="goForumList();">목록</button>
+        </div>
+        <th:block th:replace="~{community/footer.html :: jdenticon}"></th:block>
+    </div>
+</div>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+</body>
+</html>

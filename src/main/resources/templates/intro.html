@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+
+<head th:replace="~{intro/head.html :: head}"></head>
+
+<body id="page-top">
+
+    <th:block th:replace="~{font/font_links.html :: font}"></th:block>
+
+    <nav th:replace="~{intro/navbar.html :: intro-navbar}"></nav>
+
+    <div th:replace="~{intro/content.html :: intro-content}"></div>
+
+    <script src="/js/common/tooltip.js"></script>
+    <th:block th:replace="~{intro/modal.html :: feedback-modal}"></th:block>
+</body>
+</html>

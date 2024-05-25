@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{login/head.html :: head}"></head>
+<script src="/js/login.js"></script>
+<body>
+    <th:block th:replace="~{font/font_links.html :: font}"></th:block>
+    <!-- Top navigation-->
+    <th:block th:replace="~{intro/navbar.html :: navbar}"></th:block>
+
+    <input type="hidden" id="errorCode" name="errorCode" th:value="${errorCode}">
+
+    <div id="page-content" class="container">
+        <th:block th:replace="~{intro/modal.html :: feedback-modal}"></th:block>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-8 col-md-10">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-3">로그인</h1>
+                                    <p class="text-black-50">감자를 사랑하는 여러분, 환영합니다.</p>
+                                </div>
+                                <form class="user" onsubmit="return isValidLogin()" method="post" th:action="@{/api/login}">
+                                    <div class="form-group">
+                                        <input type="email" name="email" class="form-control form-control-user" id="inputEmail" aria-describedby="emailHelp" placeholder="이메일 주소">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" class="form-control form-control-user" id="inputPassword" placeholder="비밀번호">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="rememberMe" name="remember-me">
+                                            <label class="custom-control-label" for="rememberMe">로그인 상태 유지</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-light-potato btn-user btn-block">
+                                        로그인
+                                    </button>
+                                    <hr>
+                                </form>
+                                <div class="text-center">
+                                    <a class="small" href="/community/login/findPwd">비밀번호 찾기</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="/community/login/signup">회원가입</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

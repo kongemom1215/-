@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<head th:replace="~{board/header.html :: header}"></head>
+<script th:inline="javascript">
+    var cupInfo = [[${cupInfo}]];
+    var candidates = /*[[${candidates}]]*/ [];
+</script>
+<script src="/js/worldcupDetail.js"></script>
+<body id="page-top">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+
+        <div class="container-fluid my-5">
+            <div class="container">
+                <div id="worldcup-content">
+                    <div class="row text-center p-5 my-5">
+                        <h1 class="font-weight-bold" th:text="${cupInfo.title}"></h1>
+                        <div><span id="worldcup-round" th:text="${cupInfo.round}"></span>강 <span id="round-progress" th:text="|1/${cupInfo.round/2}|"></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="image-container" onclick="selectImage('left')" data="8">
+                                <img id="leftImage" src="">
+                            </div>
+                            <div class="description-overlay">
+                                <h4 id="leftName"></h4>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="vs-container">
+                                <img src="/assets/img/versus.png" alt="Image 1">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="image-container" onclick="selectImage('right')" data="9">
+                                <img id="rightImage" src="">
+                            </div>
+                            <div class="description-overlay">
+                                <h4 id="rightName"></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="worldcup-final" class="row text-center d-none">
+                    <h1>최종 우승자 !!</h1>
+                    <h2 class="finalNameDiv">☆★☆ <span id="finalName"></span> ☆★☆</h2>
+                        <img id="finalImage" src="">
+                        <div class="d-grid gap-2 col-3 mx-auto mt-5">
+                            <button class="btn btn-warning" th:onclick="|goRankingTable(${cupInfo.id});|">순위 보기</button>
+                        </div>
+                </div>
+                <div class="modal fade" id="startModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body text-center mt-4">
+                                <h5 th:text="|${cupInfo.title}을 시작하시겠습니까?|"></h5>
+                                <p class="text-xss" th:text="|-월드컵은 총 ${cupInfo.round}강으로 진행됩니다.-|"></p>
+                            </div>
+                            <div class="modal-footer text-center">
+                                <button type="button" class="btn btn-success" th:onclick="startWorldCup();">시작하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:replace="~{community/footer.html :: jdenticon}"></th:block>
+    </div>
+</div>
+</body>
+</html>

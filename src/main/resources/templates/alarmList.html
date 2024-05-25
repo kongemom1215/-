@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<head th:replace="~{board/header.html :: header}"></head>
+<script th:inline="javascript">
+    var alarmList = /*[[${alarmList}]]*/ [];
+</script>
+<script src="/js/alarmList.js"></script>
+<body id="page-top">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+        <!-- Page content-->
+        <div class="container-fluid">
+            <div class="container my-3">
+                <div class="row mt-5">
+                    <div class="col-lg-3 text-center">
+                        <div class="card bg-middle-potato text-white shadow">
+                            <div class="card-body">
+                                알림
+                                <th:block th:if="${notificationCount > 0}">
+                                    <div class="text-white-50 small" th:text="|읽지 않은 알림 ${notificationCount}개|"></div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 py-2">
+                        <div class="list-group">
+                            <th:block th:if="${alarmList == null || alarmList.empty}">
+                                <div class="list-group-item no-list-group-item text-center" aria-current="true">
+                                    등록된 알림이 없습니다.
+                                </div>
+                            </th:block>
+                            <th:block th:if="${alarmList != null && !alarmList.empty}">
+                                <th:block th:each="alarm : ${alarmList}">
+                                    <a th:href="${alarm.link}" onclick="makeBackUrl();" class="list-group-item list-group-item-action" th:classappend="${alarm.checked} ? bg-light : ''" aria-current="true">
+                                        <div class="d-flex w-100">
+                                            <th:block th:switch="${#strings.toString(alarm.type)}">
+                                                <th:block th:case="reply">
+                                                    <div class="alarm-type font-weight-bold text-soft-warning mb-1">
+                                                        댓&nbsp&nbsp글
+                                                    </div>
+                                                    <p class="mb-1 mx-2">
+                                                        <span th:utext="|[${alarm.title}] 글에 댓글 <span class='badge rounded-pill text-bg-beige'>${alarm.alarmCnt}</span>개가 등록되었습니다.|"></span>
+                                                    </p>
+                                                </th:block>
+                                                <th:block th:case="re_reply">
+                                                    <div class="alarm-type font-weight-bold text-soft-warning mb-1">
+                                                        답댓글
+                                                    </div>
+                                                    <p class="mb-1 mx-2">
+                                                        <span th:utext="|[${alarm.title}] 댓글에 답댓글 <span class='badge rounded-pill text-bg-beige'>${alarm.alarmCnt}</span>개가 등록되었습니다.|"></span>
+                                                    </p>
+                                                </th:block>
+                                                <th:block th:case="like">
+                                                    <div class="alarm-type font-weight-bold text-soft-danger mb-1">
+                                                        좋아요
+                                                    </div>
+                                                    <p class="mb-1 mx-2">
+                                                        <span th:utext="|[${alarm.title}] 글을 <span class='badge rounded-pill text-bg-beige'>${alarm.alarmCnt}</span>명이 좋아합니다.|"></span>
+                                                    </p>
+                                                </th:block>
+                                            </th:block>
+                                        </div>
+                                        <small th:id="'time_' + ${alarm.id}" class="text-black-50">방금</small>
+                                    </a>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:replace="~{community/footer.html :: jdenticon}"></th:block>
+    </div>
+</div>
+</body>
+</html>

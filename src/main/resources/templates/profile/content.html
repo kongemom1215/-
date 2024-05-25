@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="profileTab">
+    <div class="list-group list-group-checkable d-grid gap-2 border-0 mt-4">
+        <input class="list-group-item-check pe-none" type="radio" name="listGroupCheckableRadios" id="profileRadio" value="profile" checked>
+        <label class="list-group-item rounded-3 py-3" for="profileRadio">프로필</label>
+
+        <input th:if="${isOwner}" class="list-group-item-check pe-none" type="radio" name="listGroupCheckableRadios" id="accountRadio" value="account">
+        <label th:if="${isOwner}" class="list-group-item rounded-3 py-3" for="accountRadio">계정 관리</label>
+
+        <input class="list-group-item-check pe-none" type="radio" name="listGroupCheckableRadios" id="communityRadio" value="community">
+        <label class="list-group-item rounded-3 py-3" for="communityRadio">커뮤니티 활동</label>
+    </div>
+</th:block>
+
+
+
+<th:block th:fragment="notExist">
+    <div class="card mb-4 py-3 border-left-danger shadow-sm">
+        <div class="card-body">
+            <h5>
+                <i class="bi bi-exclamation-triangle-fill text-danger"></i> <span th:text="${error}"></span>
+            </h5>
+        </div>
+    </div>
+</th:block>
+
+
+
+
+<th:block th:fragment="profileContent">
+    <div id="profileContent" class="content" style="display: block;">
+        <div class="card">
+            <div class="card-body" style="padding-top:2rem; padding-left:2rem; padding-right:2rem;">
+                <div class="d-flex">
+                    <div th:if="${!#strings.isEmpty(userProfile.userProfileImg)}">
+                        <img th:src="${userProfile.userProfileImg}" class="me-2"  alt="User Profile Image" height="125">
+                    </div>
+                    <div th:if="${#strings.isEmpty(userProfile.userProfileImg)}">
+                        <svg th:data-jdenticon-value="${profileUser.userNickname}" class="me-2" width="125" height="125"></svg>
+                    </div>
+                    <div class="col mt-3 me-2">
+                        <h1 class="display-5" th:text="${profileUser.userNickname}">감자걸</h1>
+                        <p class="lead text-gray-700" th:if="${#strings.isEmpty(userProfile.bio)}">한 줄 소개를 추가하세요.</p>
+                        <p class="fa-6 text-gray-700" th:if="${!#strings.isEmpty(userProfile.bio)}" th:text="${userProfile.bio}"></p>
+                    </div>
+                </div>
+                <p class="text-muted mt-2" style="font-size:0.9rem;">감자조아 가입 날짜 : <span th:text="${joinDtStr}"></span></p>
+                <div class="d-flex text-center">
+                    <div class="">작성수 <i class="bi bi-journal"></i> <span class="text-info" th:text="${writeCnt}"></span></div>
+                    <div class="ms-3">댓글수 <i class="bi bi-chat-dots"></i> <span class="text-info" th:text="${replyCnt}"></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="text-end mt-2" th:if="${isOwner}">
+            <a th:href="@{/profile/setting}" class="btn btn-outline-potato">프로필 수정</a>
+        </div>
+    </div>
+</th:block>
+
+
+
+
+<th:block th:fragment="profileFormContent">
+    <div id="profileContent" class="content" style="display: block;">
+        <div class="form-group">
+            <input id="profileImage" type="hidden" class="form-control">
+        </div>
+        <div class="card">
+            <div class="card-body" style="padding-top:2rem; padding-left:2rem; padding-right:2rem;">
+                <div class="row">
+                    <div class="col-sm-3 text-center" id="imgUpdateDiv">
+                        <div id="current-card-image">
+                            <div th:if="${!#strings.isEmpty(userProfile.userProfileImg)}">
+                                <img th:src="${userProfile.userProfileImg}" alt="User Profile Image" width="125" height="125">
+                            </div>
+                            <div th:if="${#strings.isEmpty(userProfile.userProfileImg)}">
+                                <svg th:data-jdenticon-value="${userInfo.userNickname}" width="125" height="125"></svg>
+                            </div>
+                        </div>
+                        <div id="update-card-image"></div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-light mt-3" id="update-button" data-bs-toggle="modal" data-bs-target="#imgUpdateModal">변경</button>
+                            <button class="btn btn-light mt-3 mx-1" style="display:block;" id="reset-button">취소</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <h1 class="display-5" th:text="${userInfo.userNickname}">감자걸</h1>
+                        <div class="form-group">
+                            <label for="bio">한 줄 소개</label>
+                            <th:block th:if="${#strings.isEmpty(userProfile.bio)}">
+                                <textarea id="bio" name="bio" class="form-control mt-1" rows="3" maxlength="35"></textarea>
+                                <small id="charCount" class="form-text text-muted">0 / 35 글자</small>
+                            </th:block>
+                            <th:block th:if="${!#strings.isEmpty(userProfile.bio)}">
+                                <textarea id="bio" name="bio" class="form-control mt-1" rows="3" maxlength="35" th:text="${userProfile.bio}"></textarea>
+                                <small id="charCount" class="form-text text-muted">0 / 35 글자</small>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-end mt-2">
+            <button onclick="profileUpdate();" class="btn btn-outline-potato">프로필 수정</button>
+        </div>
+    </div>
+    <!-- img update modal -->
+    <div class="modal fade" id="imgUpdateModal" data-bs-backdrop="static" data-bs-keyboard="false" data-keyboard="false" tabindex="-1" aria-labelledby="imgUpdateModalLabel" aria-hidden="true" style="padding-right:17px;">
+        <div class="modal-dialog p-4">
+            <div class="modal-content">
+                <div class="modal-header">
+                    프로필 이미지
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <div id="current-profile-image">
+                        <div th:if="${!#strings.isEmpty(userProfile.userProfileImg)}">
+                            <img th:src="${userProfile.userProfileImg}" alt="User Profile Image" width="125" height="125">
+                        </div>
+                        <div th:if="${#strings.isEmpty(userProfile.userProfileImg)}">
+                            <svg th:data-jdenticon-value="${userInfo.userNickname}" width="125" height="125"></svg>
+                        </div>
+                    </div>
+                    <div id="new-profile-image"></div>
+                    <div class="custom-file mt-3">
+                        <input type="file" class="custom-file-input" id="profile-image-file">
+                        <label class="custom-file-label" for="profile-image-file">프로필 이미지 변경</label>
+                    </div>
+                    <div id="new-profile-image-control" class="mt-3">
+                        <button class="btn btn-outline-primary btn-block" id="cut-button">자르기</button>
+                        <button class="btn btn-outline-success btn-block mt-1" id="confirm-button">확인</button>
+                    </div>
+                    <div id="cropped-new-profile-image" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="communityContent">
+    <div id="communityContent" class="content" style="display: none;">
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item" data-target="writtenPosts">작성한 글</li>
+            <li class="list-group-item" data-target="commentedPosts">댓글 단 글</li>
+            <li class="list-group-item" data-target="likedPosts">좋아요한 글</li>
+        </ul>
+        <div id="writtenPosts" class="sub-content mt-3" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="commentedPosts" class="sub-content mt-3" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="likedPosts" class="sub-content mt-3" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

@@ -1,0 +1,53 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="feedback-modal">
+    <!-- Feedback Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <h4 class="text-center p-1 mb-2 mt-3">Contact Us</h4>
+                    <div class="form-text text-center mb-4">
+                        안녕하세요. 감자조아입니다!<br/>
+                        무엇을 도와드릴까요?
+                    </div>
+                    <form id="contactForm">
+                        <div id="nameInput" class="form-floating mb-2">
+                            <input id="name" type="text" class="form-control" name="name" />
+                            <label for="name">성함</label>
+                            <span id="name-error" class="error"></span>
+                        </div>
+                        <div id="emailInput" class="form-floating mb-2">
+                            <input id="email-input" type="text" class="form-control" name="email-input" />
+                            <label for="email-input">이메일</label>
+                            <span id="email-input-error" class="error"></span>
+                        </div>
+                        <div id="messageInput" class="form-floating mb-2">
+                            <textarea id="message" type="text" class="form-control" name="message" style="height: 10rem" ></textarea>
+                            <label for="message">문의사항</label>
+                            <span id="message-error" class="error"></span>
+                        </div>
+                    </form>
+                    <div class="d-none mt-3" id="submitSuccessMessage">
+                        <div class="text-center mb-3">
+                            <div class="fw-bolder">문의사항이 성공적으로 제출되었습니다!</div>
+                            작성하신 이메일로 추후 답변하도록 하겠습니다. <br>
+                            감자조아를 찾아주셔서 감사합니다.
+                            <br>
+                        </div>
+                    </div>
+                    <div class="d-none mt-3" id="submitErrorMessage"><div class="text-center text-danger mb-3">전송 중 오류가 발생하였습니다.</div></div>
+                    <div id="registerFeedbackBtnDiv" class="d-grid gap-2 col-6 mx-auto mt-4 mb-4">
+                        <button type="button" class="btn btn-primary disabled">제출</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

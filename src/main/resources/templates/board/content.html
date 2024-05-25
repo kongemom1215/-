@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="post-not-found">
+    <div class="row mt-3 my-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <div class="error mx-auto" data-text="404" style="width:14.5rem;">404</div>
+                    <p class="lead text-gray-800 mb-4">페이지를 찾을 수 없습니다.</p>
+                    <p class="text-gray-500 mb-0">페이지의 주소가 잘못됐거나 삭제되었습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+
+<th:block th:fragment="post-content">
+    <div class="card-body">
+        <h3 th:text="${board.title}"></h3>
+        <div class="d-flex justify-content-between">
+            <div>
+                <span id="writeMoment"></span>
+                <span class="board-divider"></span>
+                <a th:href="|/profile/${board.writerId}|" class="text-light-potato">
+                    <th:block th:if="${writerProfileImg != null}">
+                        <img th:src="${writerProfileImg}" alt="작성자이미지" height="30" class="rounded-circle">
+                    </th:block>
+                    <th:block th:if="${writerProfileImg == null}">
+                        <svg th:data-jdenticon-value="${board.writerNickname}" width="30" height="30" class="rounded-circle"></svg>
+                    </th:block>
+                    <th:block th:text="${board.writerNickname}"></th:block>
+                </a>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <span th:text="'조회수 ' +${board.readCnt}"></span>
+                <span class="board-divider"></span>
+                <span class="replyCnt">댓글 0</span>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border-top">
+        <div id="viewer" th:utext="${board.content}"></div>
+    </div>
+</th:block>
+
+<th:block th:fragment="post-like">
+    <button id="likeBtn" class="btn btn-light" th:onclick="like([[${board.postId}]]);">
+        <th:block th:if="${isLiked == true}">
+            <i class="bi bi-heart-fill text-danger"></i>
+        </th:block>
+        <th:block th:if="${isLiked == false}">
+            <i class="bi bi-heart"></i>
+        </th:block>
+        <span th:text=" ${board.likeCnt}"></span>
+    </button>
+</th:block>
+
+<th:block th:fragment="post-reply">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+                <h6 class="replyCnt mt-1">댓글 0</h6>
+                <i class="bi bi-arrow-clockwise btn p-0 fs-5" onclick="getReply();"></i>
+            </div>
+            <div id="replyInputDiv" class="row mb-4">
+            </div>
+            <div id="replyContentDiv">
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="delete-modal">
+    <div class="modal fade" id="replyDeleteModal" tabindex="-1" aria-labelledby="replyDeleteModalLabel" aria-hidden="true" style="padding-right:17px;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button onclick="deleteReply()" class="btn btn-sm btn-danger">삭제</button>
+                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">아니오</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</html>

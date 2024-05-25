@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<head th:replace="~{board/header.html :: header}"></head>
+<script th:inline="javascript">
+    var isLiked = [[${isLiked}]];
+
+    var board = [[${#objects.nullSafe(board, null)}]];
+    var likeCnt = board != null ? board.likeCnt : 0;
+    var regDt = board != null ? board.regDt : '';
+    var updateDt = board != null ? board.updateDt : '';
+    var post_id = board != null ? board.postId : '';
+
+    var deleteReplyId = '';
+</script>
+<script src="/js/freeBoardDetail.js"></script>
+<body id="page-top">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+
+        <!-- 자유게시판 글쓰기/검색 part -->
+        <header id="content-bg" class="page-header page-header-dark bg-potato pb-10">
+            <div class="container-board">
+                <div class="row my-3 mt-3">
+                    <div class="card bg-transparent border-0">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-md-8 d-flex align-items-center">
+                                    <h1 class="h3 mb-2 fw-bold text-potato">자유게시판</h1>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div th:replace="~{board/write.html :: free-write}"></div>
+                                        <div th:replace="~{board/search.html :: free-search}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+        <!-- 자유게시판 글 상세 part -->
+        <div id="board" class="container-board">
+            <th:block th:if="${error}">
+                <div th:replace="~{board/content.html :: post-not-found}"></div>
+            </th:block>
+            <th:block th:if="${error == null && board != null}">
+                <div class="row mt-3 my-3">
+                    <div class="card">
+                        <div th:replace="~{board/content.html :: post-content}"></div>
+
+                        <div class="card-body border-top text-center d-flex justify-content-lg-between">
+                            <div th:replace="~{board/content.html :: post-like}"></div>
+                            <th:block th:if="${isOwner}">
+                                <div>
+                                    <button class="btn btn-outline-secondary" th:onclick="|location.href='@{/community/free/edit/{id}(id=${board.postId})}'|">수정</button>
+                                    <button class="btn btn-outline-danger" th:onclick="deletePost([[${board.postId}]])">삭제</button>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3 my-3">
+                    <div th:replace="~{board/content.html :: post-reply}"></div>
+                </div>
+            </th:block>
+        </div>
+
+        <div class="container-board">
+            <button type="button" class="btn btn-beige mb-4" onclick="goForumList();">목록</button>
+        </div>
+
+        <!-- 자유게시판 댓글 삭제 modal -->
+        <div th:replace="~{board/content.html :: delete-modal}"></div>
+        
+        <th:block th:replace="~{community/footer.html :: jdenticon}"></th:block>
+    </div>
+</div>
+</body>
+</html>

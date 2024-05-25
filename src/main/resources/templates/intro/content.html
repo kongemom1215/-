@@ -1,0 +1,57 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="intro-content">
+    <header class="masthead">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6">
+                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                        <h1 class="display-1 lh-1 mb-3">그 감자는 정말 <br/>일품이더군.</h1>
+                        <p class="lead fw-normal text-muted mb-5">한국의 곳곳 감자 요리 정보 커뮤니티 서비스.<br>지금 즐겨보세요!</p>
+                        <div class="d-flex flex-column flex-lg-row align-items-center">
+                            <a href="/community/main" class="btn btn-yellow btn-xl text-uppercase">메인 페이지로 가기</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="masthead-device-mockup">
+                        <div class="device-wrapper">
+                            <canvas id="canvas" width="400" height="500" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="click!"></canvas>
+                            <script type="importmap">
+                                {
+                                    "imports": {
+                                        "three": "https://unpkg.com/three@0.141.0/build/three.module.js",
+                                        "GLTFLoader" : "https://unpkg.com/three@0.141.0/examples/jsm/loaders/GLTFLoader.js",
+                                        "OrbitControls" : "https://unpkg.com/three@0.141.0/examples/jsm/controls/OrbitControls.js"
+                                    }
+                                }
+                            </script>
+                            <script type="module" src = "/js/potato_3d.js"></script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container px-5">
+            <div id="resetBtnDiv" class="d-none d-flex justify-content-end">
+                <button id="resetBtn" type="button" class="btn btn-sm btn-danger">
+                    ◀◀되돌리기
+                </button>
+            </div>
+        </div>
+    </header>
+    <aside class="text-center bg-gradient-primary-to-secondary">
+        <div class="container px-5">
+            <div class="row gx-5 justify-content-center">
+                <div class="col-xl-8">
+                    <div class="h2 fs-1 text-white mb-4">"오늘 당신이 할 수 있는 최선을 다하면, 내일에는 더 바삭한 감자를 얻을 수 있다."</div>
+                    <img src="/assets/img/gamza_twigim.png" alt="..." style="height: 3rem" />
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+</html>

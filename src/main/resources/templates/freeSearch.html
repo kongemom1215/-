@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<!-- Login User -->
+<head th:replace="~{board/header.html :: header}"></head>
+<script th:inline="javascript">
+    var boardList = /*[[${boardList}]]*/ [];
+</script>
+<body id="page-top">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+        <!-- 자유게시판 글쓰기/검색 part -->
+        <header id="content-bg" class="page-header page-header-dark bg-potato pb-10">
+            <div class="container-board">
+                <div class="row my-3 mt-3">
+                    <div class="card bg-transparent border-0">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-md-8 d-flex align-items-center">
+                                    <h1 class="h3 mb-2 fw-bold text-potato">자유게시판</h1>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="row">
+                                        <div th:replace="~{board/write.html :: free-write}"></div>
+                                        <div th:replace="~{board/search.html :: free-search}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="board" class="container-board">
+            <th:block th:if="${boardPage.getTotalElements() == 0}">
+                <div class="card">
+                    <div class="card-body">
+                        <strong class="text-success" th:text="${searchText}"></strong> 에 대한 검색 결과가 없습니다.
+                    </div>
+                </div>
+            </th:block>
+            <th:block th:if="${boardPage.getTotalElements() > 0}">
+                <div class="card">
+                    <div class="card-body">
+                        <strong class="text-success" th:text="${searchText}"></strong> 에 해당하는 게시글을
+                        <span th:text="${boardPage.getTotalElements()}"></span>개 찾았습니다.
+                    </div>
+                </div>
+            </th:block>
+
+            <div class="list-group mt-3">
+                <th:block th:each="board : ${boardPage.getContent()}">
+                    <a th:href="|/community/free/${board.postId}|" onclick="makeBackUrl();" class="list-group-item list-group-item-action p-3" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between">
+                            <div class="align-self-center text-left">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <span th:text="${board.title}"></span><span th:text="| [${board.replyCnt}]|"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="bi bi-heart-fill text-warning"></i>
+                                <span th:text=" ${board.likeCnt} "></span>
+                                <i class="bi bi-eye-fill"></i>
+                                <span th:text=" ${board.readCnt} "></span>
+                            </div>
+                        </div>
+                    </a>
+                </th:block>
+            </div>
+
+            <th:block th:if="${boardPage.getTotalElements() > 0}">
+                <div class="row mt-3 my-3">
+                    <div class="d-grid gap-2 d-md-flex justify-content-center">
+                        <th:block th:if="${boardPage.hasPrevious()}">
+                            <a th:href="@{${'/community/free/search?page=' + (boardPage.number - 1) + '&type=' + searchType + '&keyword=' + searchText}}"
+                               class="btn btn-beige me-md-2">
+                                이전
+                            </a>
+                        </th:block>
+                        <th:block th:if="${boardPage.hasNext()}">
+                            <a th:href="@{${'/community/free/search?page=' + (boardPage.number + 1) + '&type=' + searchType + '&keyword=' + searchText}}"
+                               class="btn btn-beige">
+                                다음
+                            </a>
+                        </th:block>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+        <th:block th:replace="~{community/footer.html :: jdenticon}"></th:block>
+    </div>
+</div>
+</body>
+</html>

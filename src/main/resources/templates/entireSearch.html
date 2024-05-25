@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<!-- Login User -->
+<head th:replace="~{board/header.html :: header}"></head>
+<body id="page-top">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+
+        <div class="container-board">
+            <div class="d-flex align-items-center p-3 my-3 rounded shadow-sm">
+                <div class="lh-1">
+                    <h1 class="h6 mb-0 lh-1"><span class="fw-bold text-success" th:text='|"${keyword}"|'></span>에 대한 통합 검색 결과</h1>
+                </div>
+            </div>
+            <th:block th:if="${freeBoardResult != null}">
+                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                    <h6 class="border-bottom pb-2 mb-0"><span class="text-light-potato">자유게시판</span> 검색결과 총(<span th:text="${freeBoardResult.post_cnt}"></span>)건</h6>
+                    <th:block th:each="post : ${freeBoardResult.post_list}">
+                        <a th:href="|/community/free/${post.postId}|" class="d-flex text-body-secondary pt-3 border-bottom text-dark">
+                            <p class="pb-3 mb-0 small lh-sm ">
+                                <strong class="d-block text-gray-dark" th:text="${post.title}"></strong>
+                                <span th:text="${@textUtils.truncate(@textUtils.removeHtml(post.content), 100)}"></span>
+                            </p>
+                        </a>
+                    </th:block>
+                    <th:block th:if="${freeBoardResult.post_cnt > 3}">
+                        <small class="d-block text-end mt-3">
+                            <a th:href="@{/community/free/search(type='all', keyword=${keyword})}">
+                                <i class="bi bi-plus-lg"></i> 더보기
+                            </a>
+                        </small>
+                    </th:block>
+                </div>
+            </th:block>
+        </div>
+        <th:block th:replace="~{community/footer.html :: jdenticon}"></th:block>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<nav th:fragment="topbar" class="navbar navbar-expand-lg navbar-light shadow-sm" id="topNavbar">
+    <div class="container-fluid">
+        <button class="btn btn-potato" id="sidebarToggle">&lt;</button>
+        <th:block sec:authorize="isAuthenticated()">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-gear-fill"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <div class="ms-auto me-1 my-3 my-lg-0">
+                    <a href="/alarm" class="btn btn-outline-potato position-relative">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge text-bg-danger" th:text="${notificationCount}">0</span>
+                    </a>
+                </div>
+                <div class="topbar-divider d-none d-sm-block"></div>
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none text-dark dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div th:if="${#authentication.principal.profileIcon}">
+                            <img th:src="${#authentication.principal.profileIcon}" alt="User Profile Image" height="32" class="rounded-circle me-2">
+                        </div>
+                        <div th:unless="${#authentication.principal.profileIcon}">
+                            <svg th:data-jdenticon-value="${#authentication.name}" width="32" height="32" class="rounded-circle me-2"></svg>
+                        </div>
+                        <!--<img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">-->
+                        <strong th:text="${#authentication.name}">감자걸</strong>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg-end text-small shadow" aria-labelledby="dropdownUser1">
+                        <li><a class="dropdown-item" th:href="@{/profile/{userId}(userId=${userInfo.userId})}">내 정보</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/api/logout}">로그아웃</a></li>
+                    </ul>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</nav>
+
+<nav th:fragment="topbar-not-login" class="navbar navbar-expand-lg navbar-light shadow-sm" id="topNavbar">
+    <div class="container-fluid">
+        <button class="btn btn-potato" id="sidebarToggle">&lt;</button>
+    </div>
+</nav>
+
+</html>

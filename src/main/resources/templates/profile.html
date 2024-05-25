@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<head th:replace="~{community/header.html :: header}"></head>
+<script src="/js/profile.js"></script>
+<script src="/js/account.js"></script>
+<body id="page-top">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+        <!-- Page content-->
+        <div class="container-fluid">
+            <div class="container my-3">
+                <div class="row mt-5">
+                    <th:block th:if="${error}">
+                        <th:block th:replace="~{profile/content.html :: notExist}"></th:block>
+                    </th:block>
+
+                    <th:block th:if="${error == null}">
+                        <input type="hidden" id="userId" th:value="${profileUser.userId}">
+                        <div class="col-lg-3 text-center">
+                            <th:block th:replace="~{profile/content.html :: profileTab}"></th:block>
+                        </div>
+                        <div class="col-lg-9 py-2">
+                            <!-- 프로필 tab -->
+                            <th:block th:replace="~{profile/content.html :: profileContent}"></th:block>
+                            <!-- 계정관리 tab -->
+                            <th:block th:replace="~{profile/account.html :: accountContent}"></th:block>
+                            <!-- 커뮤니티 활동 tab -->
+                            <th:block th:replace="~{profile/content.html :: communityContent}"></th:block>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+        <th:block th:replace="~{community/footer.html :: jdenticon}"></th:block>
+    </div>
+</div>
+</body>
+</html>

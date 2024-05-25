@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<!-- Login User -->
+<head th:replace="~{board/header.html :: header}"></head>
+<script th:inline="javascript">
+    var dateList = /*[[${dateList}]]*/ [];
+    var boardList = /*[[${boardList}]]*/ [];
+    var error = [[${error}]];
+</script>
+
+<body id="page-top">
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+        <!-- 자유게시판 글쓰기/검색 part -->
+        <div class="px-4 py-3 mt-5 text-center">
+            <h1 class="display-5 fw-bold text-body-emphasis">인기글 모음</h1>
+            <div class="col-lg-6 mx-auto">
+                <ul id="hotBoardTab" class="list-group list-group-horizontal justify-content-center mt-4 fs-5">
+                    <li class="list-group-item" data-target="daily">일간</li>
+                    <li class="list-group-item" data-target="weekly">주간</li>
+                    <li class="list-group-item" data-target="monthly">월간</li>
+                </ul>
+            </div>
+        </div>
+        <div id="hotBoardDiv" class="container-fluid">
+            <div id="daily" class="sub-content" style="display: none;">
+                <div id="dailyDateDiv" class="fs-3 mb-4 text-center">
+                    <span id="dayPreviousBtn" class="arrow-btn d-none"><i class="bi bi-chevron-left"></i></span>
+                    <span id="day"></span>
+                    <span id="dayNextBtn" class="arrow-btn d-none"><i class="bi bi-chevron-right"></i></span>
+                </div>
+                <div id="dailyContent">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="weekly" class="sub-content" style="display: none;">
+                <div id="weeklyDateDiv" class="fs-4 mb-4 text-center">
+                    <span id="weekPreviousBtn" class="arrow-btn d-none"><i class="bi bi-chevron-left"></i></span>
+                    <span id="week"></span>
+                    <span id="weekNextBtn" class="arrow-btn d-none"><i class="bi bi-chevron-right"></i></span>
+                </div>
+                <div id="weeklyContent">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="monthly" class="sub-content" style="display: none;">
+                <div id="monthlyDateDiv" class="fs-3 mb-4 text-center">
+                    <span id="monthPreviousBtn" class="arrow-btn d-none"><i class="bi bi-chevron-left"></i></span>
+                    <span id="month"></span>
+                    <span id="monthNextBtn" class="arrow-btn d-none"><i class="bi bi-chevron-right"></i></span>
+                </div>
+                <div id="monthlyContent">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:replace="~{community/footer.html :: jdenticon}"></th:block>
+    </div>
+</div>
+<script src="/js/hotBoard.js"></script>
+</body>
+</html>

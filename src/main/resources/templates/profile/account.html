@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="accountContent">
+    <div id="accountContent" th:if="${isOwner}" class="content" style="display: none;">
+        <div class="card">
+            <div class="card-body" style="padding-top:2rem; padding-left:2rem;">
+                <p class="fs-4">기본정보</p>
+                <div class="row g-2">
+                    <div class="col-sm-12">
+                        <div class="form-floating mb-3">
+                            <input type="email" readonly class="form-control-plaintext" id="email" th:value="${userInfo.userEmail}">
+                            <label for="email">이메일</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-2">
+                    <div class="col-auto">
+                        <div class="form-floating mb-3">
+                            <input type="password" readonly class="form-control-plaintext" id="password" th:value="password">
+                            <label for="password">패스워드</label>
+                        </div>
+                    </div>
+                    <div class="col-auto mt-4">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#pwdUpdateModal">수정</a>
+                    </div>
+                </div>
+                <div class="row g-2">
+                    <div class="col-auto">
+                        <div class="form-floating mb-3">
+                            <input type="text" readonly class="form-control-plaintext" id="nickname" th:value="${userInfo.userNickname}">
+                            <label for="nickname">닉네임</label>
+                        </div>
+                    </div>
+                    <div class="col-auto mt-4">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#nicknameUpdateModal">수정</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <p class="mt-1">계정 삭제하기</p>
+                    <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#withdrawModal">회원 탈퇴</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 패스워드 변경 모달 -->
+    <div class="modal fade" id="pwdUpdateModal" tabindex="-1" aria-labelledby="pwdUpdateModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <h4 class="text-center p-3 mb-4">비밀번호 재설정하기</h4>
+                    <form id="password_form">
+                        <div class="pwdUpdateForm mb-4">
+                            <input type="password" class="form-control" name="currentPwd" id="currentPwd" placeholder="현재 비밀번호">
+                            <a class="btn btn-transparent" id="toggle_currentPwd" onclick="togglePasswordVisibility('currentPwd', this)"><i class="bi bi-eye-fill"></i></a>
+                        </div>
+                        <div id="newPwdInputDiv" class="pwdUpdateForm">
+                            <input type="password" class="form-control" name="newPwd" id="newPwd" placeholder="새로운 비밀번호 입력">
+                            <a type="button" class="btn btn-transparent" id="toggle_newPwd" onclick="togglePasswordVisibility('newPwd', this)"><i class="bi bi-eye-fill"></i></a>
+                        </div>
+                        <div id="newPwdRepeatInputDiv" class="pwdUpdateForm mt-4">
+                            <input type="password" class="form-control" name="newPwdRepeat" id="newPwdRepeat" placeholder="새로운 비밀번호 재입력">
+                            <a type="button" class="btn btn-transparent" id="toggle_newPwdRepeat" onclick="togglePasswordVisibility('newPwdRepeat', this)"><i class="bi bi-eye-fill"></i></a>
+                        </div>
+                        <div class="form-text mt-3 mx-2 ml-2">
+                            비밀번호: 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.
+                        </div>
+                    </form>
+                    <div id="alertPwdStateDiv" class="alert alert-danger form-text mt-2" role="alert" style="display:none;">
+                        <i class="bi bi-exclamation-circle"></i> <span id="alertPwdState">비밀번호가 일치하지 않습니다.</span>
+                    </div>
+                    <div id="pwdUpdateBtnDiv" class="d-grid gap-2 col-6 mx-auto mt-4">
+                        <button type="button" class="btn btn-primary disabled">비밀번호 재설정하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 패스워드 변경 모달 end -->
+    <!-- 닉네임 변경 모달 -->
+    <div class="modal fade" id="nicknameUpdateModal" tabindex="-1" aria-labelledby="nicknameUpdateModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <h4 class="text-center p-3 mb-3">닉네임 변경하기</h4>
+                    <div class="form-text text-center mb-4">
+                        닉네임은 7일에 한번만 변경할 수 있습니다.
+                    </div>
+                    <form id="nickname_form">
+                        <div id="nicknameInputDiv" class="form-floating">
+                            <input type="text" class="form-control" name="nicknameInput" id="nicknameInput" th:value="${userInfo.userNickname}">
+                            <label for="nicknameInput">닉네임</label>
+                            <a id="checkNicknameBtn" onclick="checkNickname();" class="btn btn-transparent" style="display: none;">중복체크</a>
+                        </div>
+                    </form>
+                    <div id="invalidNicknameDiv" class="nicknameValidState alert alert-danger form-text mt-2" role="alert" style="display:none;">
+                        <i class="bi bi-exclamation-circle"></i> <span id="invalidState"></span>
+                    </div>
+                    <div id="validNicknameDiv" class="nicknameValidState alert alert-success form-text mt-2" role="alert" style="display:none;">
+                        <i class="bi bi-check-circle"></i> 사용가능한 닉네임입니다.
+                    </div>
+
+                    <div id="nicknameUpdateBtnDiv" class="d-grid gap-2 col-6 mx-auto mt-4 mb-4">
+                        <button type="button" class="btn btn-primary disabled">닉네임 변경하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 닉네임 변경 모달 end -->
+    <!-- 탈퇴 모달 -->
+    <div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModal" aria-hidden="true" style="padding-right:17px;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4 class="text-center p-3 mb-3">계정 삭제하기</h4>
+                    <div class="card">
+                        <div class="card-header">
+                            <b>탈퇴 시 주의사항</b>
+                        </div>
+                        <div class="card-body fs-7">
+                            <p>1. 회원탈퇴 시, 개인정보 처리 방침에 따라 모든 개인정보는 삭제됩니다. 삭제한 정보는 복구할 수 없습니다.</p>
+                            <p>2. 등록한 게시물과 댓글은 탈퇴 후에도 삭제되지 않습니다. 계정을 탈퇴하기 전 삭제를 원하는 게시물을 삭제 바랍니다.</p>
+                            <p>3. 탈퇴한 이메일 주소는 탈퇴 후 3일 뒤에 다시 가입할 수 있습니다.</p>
+                        </div>
+                    </div>
+                    <form id="withdraw_form">
+                        <div class="form-check mt-3 mb-4">
+                            <input class="form-check-input" type="checkbox" id="withdraw_agree" name="withdraw_agree">
+                            <label class="form-check-label" for="withdraw_agree">
+                                해당 내용을 확인하였으며, 이에 동의합니다.
+                            </label>
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-center mt-2">
+                        <a id="withdrawBtn" class="btn btn-danger mx-1 disabled" href="#">탈퇴</a>
+                        <a class="btn btn-secondary" data-bs-dismiss="modal">취소</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 탈퇴 모달 end -->
+</th:block>
+
+
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div th:fragment="ai-modal">
+        <!-- gpt ai modal -->
+        <div class="modal fade" id="aiModal" tabindex="-1" aria-labelledby="aiModalLabel" aria-hidden="true" style="padding-right:17px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="d-flex">
+                            <img class="logo img-fluid" src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" width="30">
+                            <h1 class="modal-title fs-5 ms-2" id="aiModalLabel">GPT에게 물어보기</h1>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="message-text" class="col-form-label">GPT 질문 내역:</label>
+                                <div class="input-group">
+                                    <input id="gptQuery" name="gptQuery" type="text" class="form-control" placeholder="감자튀김 레시피 알려줘" aria-describedby="gptAskBtn">
+                                    <button id="gptAskBtn" onclick="askGpt();" class="btn btn-outline-success" type="button">질문하기</button>
+                                </div>
+                            </div>
+                            <div id="gpt-error" class="d-none mb-3">
+                            </div>
+                            <div id="gpt-answer" class="d-none mb-3">
+                                <label for="message-text" class="col-form-label">GPT 답변 내역:</label>
+                                <div id="typing-text"></div>
+                            </div>
+                        </form>
+                        <div class="text-muted fs-7">[안내] 호출 할당량 초과 시 질문이 제한될 수 있습니다.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="shorts-modal">
+        <!-- gpt ai modal -->
+        <div class="modal fade" id="shortsModal" tabindex="-1" aria-labelledby="shortsModalLabel" aria-hidden="true" style="padding-right:17px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="d-flex">
+                            <h1 class="modal-title fs-5 ms-2" id="shortsModalLabel">
+                                <i class="bi bi-play-btn-fill text-danger"></i>
+                                 주목할만한 감자 요리!
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="shorts-container">
+                            <iframe class="shorts-iframe" width="560" height="315" src="https://www.youtube.com/embed/QKkBDCSqMME" allow="acceleroemter; autoplay; clipboard-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="msg-modal">
+        <div class="modal fade" id="inputMsgModal" tabindex="-1" aria-hidden="true" style="padding-right:17px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h1 class="modal-title fs-5 ms-2">감자🥔에 대한 한 줄 등록하기</h1>
+                        <div class="text-muted fs-7 ms-2">등록하신 문구들은 5분간격으로 Pick되어 메인에 뜨게 되어요! </div>
+                        <div class="card mt-2 mb-2">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div class="col-8">
+                                        <label for="msgTitle" class="form-label">제목</label>
+                                        <input type="text" class="form-control" id="msgTitle" placeholder="감자는 매력적이야." maxlength="15">
+                                    </div>
+                                    <div class="col-auto">
+                                        <label for="colorInput" class="form-label">색상 정하기</label>
+                                        <input type="color" class="form-control form-control-color" id="colorInput" value="#8E700C" title="Choose your color">
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div>
+                                        <label for="msgTextarea" class="form-label">내용</label>
+                                        <textarea class="form-control" id="msgTextarea" placeholder="튀기면 튀기는대로, 삶으면 삶은대로, 너무 맛있으니까!" maxlength="40" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-muted fs-7 ms-2">(비방 및 욕설을 등록하신 회원은 통보 없이 탈퇴 처리될 수 있습니다.)</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="registerMsg()" class="btn btn-potato">등록</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:fragment="login-modal" class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true" style="padding-right:17px;">
+        <!--로그인 안내 모달-->
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    로그인이 필요한 서비스입니다.
+                </div>
+                <div class="modal-footer">
+                    <a href="/community/login" class="btn btn-sm btn-potato">로그인</a>
+                    <a class="btn btn-sm btn-secondary" data-bs-dismiss="modal">나가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

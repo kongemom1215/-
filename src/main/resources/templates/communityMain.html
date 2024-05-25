@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<!-- Login User -->
+<th:block sec:authorize="isAuthenticated()">
+    <head th:replace="~{community/header.html :: header}"></head>
+    <script src="/js/mainpage.js"></script>
+    <body id="page-top">
+        <div class="d-flex" id="wrapper" sec:authorize="isAuthenticated()">
+            <!-- Sidebar-->
+            <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+
+                <th:block th:if="${isChangePwd}">
+                    <div class="alert alert-primary" role="alert">
+                        변경된 비밀번호는 상단 프로필을 통해 수정할 수 있어요!
+                    </div>
+                </th:block>
+
+                <!-- Page content-->
+                <div th:replace="~{community/content.html :: content}"></div>
+
+                <div th:replace="~{community/footer.html :: jdenticon}"></div>
+            </div>
+        </div>
+    </body>
+</th:block>
+
+<!-- Not Login User -->
+<th:block sec:authorize="isAnonymous()">
+    <head th:replace="~{community/header.html :: header-not-login}"></head>
+    <script src="/js/mainpage_notLogin.js"></script>
+    <body id="page-top">
+        <div class="d-flex" id="wrapper" sec:authorize="isAnonymous()">
+            <div th:replace="~{community/sidebar.html :: sidebar}"></div>
+
+            <div id="page-content-wrapper">
+                <th:block th:replace="~{community/topbar.html :: topbar}"></th:block>
+
+                <div th:replace="~{community/content.html :: content-not-login}"></div>
+
+            </div>
+        </div>
+    </body>
+</th:block>
+
+
+</html>

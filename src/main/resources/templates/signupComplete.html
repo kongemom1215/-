@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{login/head.html :: head}"></head>
+
+<body>
+<th:block th:replace="~{font/font_links.html :: font}"></th:block>
+<!-- Top navigation-->
+<th:block th:replace="~{intro/navbar.html :: navbar}"></th:block>
+
+<div id="page-content" class="container">
+    <th:block th:replace="~{intro/modal.html :: feedback-modal}"></th:block>
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <div class="col-xl-12 col-lg-12 col-md-12 mt-5">
+            <div class="mt-5">
+                <div class="text-center">
+                    <div class="card mb-4 py-3 border-left-success shadow-sm" th:if="${error == null}">
+                        <div class="card-body">
+                            <p class="text-gray-700">가입이 완료되었습니다.</p>
+                            <h5>
+                                <div class="img-circle icon-success">
+                                    <i class="fas-1 bi bi-check-lg text-light"></i></div>
+                                감자조아의 <span th:text="${numberOfUser}"></span>번째 회원, <span th:text="${nickname}"></span>님! 가입을 축하합니다!
+                            </h5>
+                            <a href="/community/login"><i class="bi bi-arrow-left-circle"></i> 로그인하러가기</a>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4 py-3 border-left-danger shadow-sm" th:if="${error}">
+                        <div class="card-body">
+                            <h5>
+                                <div class="img-circle icon-danger"><i class="fas-1 bi bi-exclamation"></i></div>
+                                비정상적인 접근입니다.
+                                <div class="img-circle icon-danger"><i class="fas-1 bi bi-exclamation"></i></div>
+                            </h5>
+                            <a href="/community/login"><i class="bi bi-arrow-left-circle"></i> 돌아가기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

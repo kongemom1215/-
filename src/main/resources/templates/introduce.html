@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{intro/head.html :: head}"></head>
+
+<body>
+    <th:block th:replace="~{font/font_links.html :: font}"></th:block>
+    <nav th:replace="~{intro/navbar.html :: intro-navbar}"></nav>
+
+    <div id="page-content" class="masthead introduce-container bg-white">
+        <th:block th:replace="~{intro/modal.html :: feedback-modal}"></th:block>
+        <!-- Outer Row -->
+        <div class="container px-5 py-5">
+            <div class="border-bottom">
+                <h2 class="pb-2">감자조아 소개</h2>
+                <p>
+                    감자 요리를 좋아하시나요?<br>
+                    “감자조아”는 감자를 좋아하는 사람들이 즐거움을 함께 공유하고 이야기를 나눌 수 있는 공간입니다.
+                </p>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+                <div class="col d-flex flex-column align-items-start gap-2">
+                    <h2 class="fw-bold text-body-emphasis mt-1">커뮤니티</h2>
+                    <p class="text-body-secondary">커뮤니티는 감자조아 회원이라면 누구나 이야기를 나눌수 있습니다!<br>
+                        커뮤니티는 <span class="fw-bold text-light-potato">자유게시판, 감자 공유소, 맛집 게시판, 감자 레시피</span> 로 구성되어있어요.<br>
+                    </p>
+                    <a href="/community/main" class="btn btn-warning btn-lg fs-6 text-light">구경하러가기</a>
+                </div>
+
+                <div class="col">
+                    <div class="row row-cols-1 row-cols-sm-2 g-4">
+                        <div class="col d-flex flex-column gap-2">
+                            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-warning text-light fs-4 rounded-3">
+                                <i class="bi bi-shop" width="1em" height="1em"></i>
+                            </div>
+                            <h4 class="fw-semibold mb-0 text-body-emphasis mt-1">맛집 공유</h4>
+                            <p class="text-body-secondary">지도를 통해 위치를 공유해 쉽게 장소를 확인할 수 있어요! 맛집 게시판을 이용해주세요.</p>
+                        </div>
+
+                        <div class="col d-flex flex-column gap-2">
+                            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-warning text-light fs-4 rounded-3">
+                                <i class="bi bi-pen" width="1em" height="1em"></i>
+                            </div>
+                            <h4 class="fw-semibold mb-0 text-body-emphasis mt-1">내가 쓴 글이 메인에!</h4>
+                            <p class="text-body-secondary">메인에 "한줄 등록하기"를 이용하시면 5분마다 추첨으로 메인에 뜨게 됩니다.</p>
+                        </div>
+
+                        <div class="col d-flex flex-column gap-2">
+                            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-warning text-light fs-4 rounded-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-robot" viewBox="0 0 16 16">
+                                    <path d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.6 26.6 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.93.93 0 0 1-.765.935c-.845.147-2.34.346-4.235.346s-3.39-.2-4.235-.346A.93.93 0 0 1 3 9.219zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a25 25 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25 25 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135"></path>
+                                    <path d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5"></path>
+                                </svg>
+                            </div>
+                            <h4 class="fw-semibold mb-0 text-body-emphasis mt-1">AI 요리사</h4>
+                            <p class="text-body-secondary">감자 요리 레시피를 물어보면 척척 알려주는 AI 요리사가 있어요!</p>
+                        </div>
+
+                        <div class="col d-flex flex-column gap-2">
+                            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-bg-warning text-light fs-4 rounded-3">
+                                <i class="bi bi-youtube" width="1em" height="1em"></i>
+                            </div>
+                            <h4 class="fw-semibold mb-0 text-body-emphasis mt-1">감자 트랜드</h4>
+                            <p class="text-body-secondary">요즘 뜨는 감자 요리를 알고싶으신가요? 유튜브 영상으로 함께 봐요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

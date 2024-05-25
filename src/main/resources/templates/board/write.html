@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<th:block th:fragment="free-write">
+    <div class="col-md-12 mb-3">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" onclick="goForumWrite();" class="btn btn-dark-potato position-relative">
+                <span>글쓰기</span>
+                <i class="bi bi-pencil-square"></i>
+            </button>
+        </div>
+    </div>
+</th:block>
+<th:block th:fragment="share-write">
+    <div class="col-md-12 mb-3">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" onclick="goShareForumWrite();" class="btn btn-dark-potato position-relative">
+                <span>글쓰기</span>
+                <i class="bi bi-pencil-square"></i>
+            </button>
+        </div>
+    </div>
+</th:block>
+<th:block th:fragment="review-write">
+    <div class="col-md-12 mb-3">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" th:onclick="goReviewForumWrite([[${region}]]);" class="btn btn-dark-potato position-relative">
+                <span>글쓰기</span>
+                <i class="bi bi-pencil-square"></i>
+            </button>
+        </div>
+    </div>
+</th:block>
+<th:block th:fragment="recipe-write">
+    <div class="col-md-12 mb-3">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" onclick="goRecipeForumWrite();" class="btn btn-dark-potato position-relative">
+                <span>글쓰기</span>
+                <i class="bi bi-pencil-square"></i>
+            </button>
+        </div>
+    </div>
+</th:block>
+</html>
