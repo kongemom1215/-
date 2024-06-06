@@ -1,5 +1,5 @@
 # :bulb: GAMZA-ZOA : 감자 요리 정보 공유 커뮤니티  [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fkongemom1215%2Fhit-counter&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
-> 감자 맛집, 레시피 등 감자 관련 정보 공유 커뮤니티입니다.
+> 감자 맛집, 레시피 등 감자 관련 정보 공유 커뮤니티입니다. 
  
 URL : <https://www.gamza-zoa.com> 
 
